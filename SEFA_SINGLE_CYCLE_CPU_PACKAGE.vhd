@@ -6,6 +6,8 @@ PACKAGE SEFA_SINGLE_CYCLE_CPU_PACKAGE IS
 COMPONENT SEFA_ALU IS 
 GENERIC(SEFA_N : INTEGER := 32);
 PORT(
+	SEFA_OPCODE : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+	SEFA_FUNCT : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
 	SEFA_INPUT_A : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
 	SEFA_INPUT_B : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
 	SEFA_ALU_OUTPUT : OUT STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0)
@@ -16,9 +18,19 @@ END COMPONENT SEFA_ALU;
 COMPONENT SEFA_ALU_MUX IS 
 GENERIC(SEFA_N : INTEGER := 32);
 PORT(
-	SEFA_CONDITION_CODE : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+	SEFA_OPCODE : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+	SEFA_FUNCT: IN STD_LOGIC_VECTOR(5 DOWNTO 0);
 	SEFA_ADD : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
 	SEFA_SUB : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
+	SEFA_ADDU : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
+	SEFA_ADDI : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
+	SEFA_ADDIU : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
+	SEFA_SUBU : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
+	SEFA_AND : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
+	SEFA_OR : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
+	SEFA_NOR : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
+	SEFA_ANDI : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
+	SEFA_ORI : IN STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0);
 	SEFA_ALU_RESULT : OUT STD_LOGIC_VECTOR(SEFA_N-1 DOWNTO 0)
 	-- NOTE IM NOT SURE HOW WE ARE GOING TO DO OUTPUT FOR MUL/DIV WHICH IS 64 BITS.......FOR NOW IGNORING.
 );
@@ -90,6 +102,32 @@ COMPONENT SEFA_LPM_DIVIDE IS
 		SEFA_remain		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
 	);
 END COMPONENT SEFA_LPM_DIVIDE;
+
+
+COMPONENT SEFA_Register_N_VHDL is 
+	generic (SEFA_N: integer := 32); -- The genetics feature permits us to change the side of this register desin easily. Its a const variable
+	port (
+		SEFA_clk: in std_logic; -- clock
+		SEFA_wren: in std_logic; -- write enable (if it is 0, the stored data will not change)
+		SEFA_rden: in std_logic; -- read enable (only when it is 1, the stored data will be displayed to output)
+		SEFA_chen: in std_logic; --  chip enable (if it is 0, the output will be undefined)
+		SEFA_data: in std_logic_vector (SEFA_N-1 downto 0); -- data input
+		SEFA_q: out std_logic_vector(SEFA_N-1 downto 0) -- output. This is essentially just a display
+		);
+end COMPONENT SEFA_Register_N_VHDL;
+
+
+COMPONENT SEFA_IR_REGISTER IS
+	generic (SEFA_N: integer := 32);
+	port(
+	SEFA_clk: in std_logic; -- clock
+		SEFA_wren: in std_logic; -- write enable (if it is 0, the stored data will not change)
+		SEFA_rden: in std_logic; -- read enable (only when it is 1, the stored data will be displayed to output)
+		SEFA_chen: in std_logic; --  chip enable (if it is 0, the output will be undefined)
+		SEFA_data: in std_logic_vector (SEFA_N-1 downto 0); -- data input
+		SEFA_IR: out std_logic_vector(SEFA_N-1 downto 0)
+		);
+end COMPONENT SEFA_IR_REGISTER;
 
 
 
