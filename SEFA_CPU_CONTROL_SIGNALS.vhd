@@ -98,7 +98,7 @@ BEGIN
 					SEFA_PCSrc <= '0';
 					SEFA_RegDst <= '1';
 					SEFA_RegWr <= '1';
-				WHEN "010000" =>
+				WHEN "011000" =>
 					-- MULT
 					SEFA_ALUctr <= "1101"; -- NEED THIS FOR ALU TO BE UNIQUE  
 					SEFA_ExtOp <= '-';
