@@ -41,6 +41,7 @@ COMPONENT alt3pram
 GENERIC(
 indata_aclr : STRING;
 indata_reg : STRING;
+lpm_file : STRING;
 intended_device_family : STRING;
 lpm_type : STRING; 
 outdata_aclr_a : STRING;
@@ -80,13 +81,13 @@ SEFA_qb <= sub_wire1(31 downto 0);
 alt3pram_component: alt3pram GENERIC MAP (
 indata_aclr => "OFF",
 indata_reg => "INCLOCK",
-init_file => "SEFA_REGISTER_MEMORY.mif", -- REALLY PRAYING THIS WILL WORK...
+lpm_file => "SEFA_REGISTER_MEMORY_1.mif", -- REALLY PRAYING THIS WILL WORK...
 intended_device_family => "Stratix II",
 lpm_type => "alt3pram",
 outdata_aclr_a => "OFF",
 outdata_aclr_b => "OFF", 
-outdata_reg_a => "OUTCLOCK",
-outdata_reg_b => "OUTCLOCK",
+outdata_reg_a => "UNREGISTERED",
+outdata_reg_b => "UNREGISTERED",
 rdaddress_aclr_a => "OFF",
 rdaddress_aclr_b => "OFF",
 rdaddress_reg_a => "INCLOCK",

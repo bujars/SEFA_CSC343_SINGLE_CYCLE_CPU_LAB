@@ -88,7 +88,7 @@ BEGIN
 					SEFA_PCSrc <= '0';
 					SEFA_RegDst <= '1';
 					SEFA_RegWr <= '1';
-				WHEN "100011" => 
+				WHEN "100001" => 
 					-- ADDU
 					SEFA_ALUctr <= "1001"; -- -- -- SETTING THIS ONE AS 9 SO WHEN WE ADD MORE, KEEP AT 9. 
 					SEFA_ExtOp <= '-';
@@ -98,6 +98,15 @@ BEGIN
 					SEFA_PCSrc <= '0';
 					SEFA_RegDst <= '1';
 					SEFA_RegWr <= '1';
+				WHEN OTHERS =>
+					SEFA_ALUctr <= "1111";
+					SEFA_ExtOp <= '-';
+					SEFA_ALUSrc <= '0';
+					SEFA_MemWr <= '0';
+					SEFA_MemtoReg <= '0';
+					SEFA_PCSrc <= '0';
+					SEFA_RegDst <= '0';
+					SEFA_RegWr <= '0';
 			END CASE; 
 		WHEN "001000" =>
 			-- ADDI
@@ -129,7 +138,7 @@ BEGIN
 			SEFA_PCSrc <= '0';
 			SEFA_RegDst <= '0';
 			SEFA_RegWr <= '1';
-		WHEN "001100" => 
+		WHEN "001011" => 
 			-- ANDI
 			SEFA_ALUctr <= "1000";
 			SEFA_ExtOp <= '0';
@@ -139,6 +148,26 @@ BEGIN
 			SEFA_PCSrc <= '0';
 			SEFA_RegDst <= '0';
 			SEFA_RegWr <= '1';
+		WHEN "100011" =>
+			-- LW
+			SEFA_ALUctr <= "0000"; --  I KNOW THIS IS SUPPOED TO BE ADD, BUT WHCIH ONE IS SOMETHING TO REVISIT. 
+			SEFA_ExtOp <= '1';
+			SEFA_ALUSrc <= '1';
+			SEFA_MemWr <= '0';
+			SEFA_MemtoReg <= '1';
+			SEFA_PCSrc <= '0';
+			SEFA_RegDst <= '0';
+			SEFA_RegWr <= '1';
+		WHEN OTHERS =>
+			SEFA_ALUctr <= "1111";
+			SEFA_ExtOp <= '-';
+			SEFA_ALUSrc <= '0';
+			SEFA_MemWr <= '0';
+			SEFA_MemtoReg <= '0';
+			SEFA_PCSrc <= '0';
+			SEFA_RegDst <= '0';
+			SEFA_RegWr <= '0';
+			
 	END CASE; 
 
 END PROCESS;
